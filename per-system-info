@@ -1,0 +1,107 @@
+# ! /bin/bash
+#=====================================================================================
+#
+# File        : utiliti.sh
+# Utilizzo    : ./utiliti.sh
+
+# Descrizione : Utiliti per la verfica inf del sistema e deployment applicazione
+#
+# Autore      : Sergio Arellano Diaz
+# Versione    : 1.0
+# Creato      : 14/11/2020 12:00
+# Revisioni   :
+#======================================================================================
+
+WEB_SERVERS="\\home \\opt \\etc"
+
+function aiuto {
+    cat <<AIUTO_PER
+    commando
+
+    opzioni
+    -? blabla
+    -? blabla
+AIUTO_PER
+}
+
+function pausa {
+    read -p "Presiona Invio per continuare..."
+}
+
+server_selezionato=0
+
+function selezione_web_server(){
+    opzione_server=0
+    numero_server=0
+
+    echo "Web server :"
+
+    for web_server in $WEB_SERVERS
+    do
+        numero_server=$((numero_server+1))
+        echo "$numero_server) $web_server"
+    done
+
+    # Catturare dati dal utente
+    read -n1 -p "Scegliere una opzione [1-$numero_server] : " opzione_server
+    echo -e "\n"
+
+    # Seleziona Web Server
+
+    arr=($WEB_SERVERS)
+    info_server=${arr[opzione_server-1]}
+
+    server_selezionato=$info_server
+
+}
+
+opzione=0
+
+while :
+do
+    # Pulisci schermo
+    clear
+    # Creazione Menu
+    echo "Menu utilitario sistema"
+    echo "----------------------------------------"
+    echo "PEUTINDE - Utilitario                   "
+    echo "----------------------------------------"
+    echo "1. Memoria disponibile"
+    echo "2. Espazio in Disco"
+    echo "3. Riavvio Web Application Server"
+    echo "4. Applicazioni deployate"
+    echo "5. Backup info"
+    echo "6. Info"
+    echo "7. Esci"
+
+    # Catturare dati dal utente
+    read -n1 -p "Scegliere una opzione [1-7] : " opzione
+    echo -e "\n"
+    # verificare opzione
+    case $opzione in
+        1)
+            free -m
+            pausa
+            ;;
+        2)
+            df -h
+            pausa
+            ;;
+        3)
+            prova_function
+            pausa
+            ;;            
+        4)
+            selezione_web_server
+            echo $server_selezionato
+            pausa
+            ;;
+        6)
+            aiuto
+            pausa
+            ;;
+        7)
+            echo -e "\n"
+            exit 0
+    esac
+done
