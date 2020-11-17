@@ -42,7 +42,7 @@ function pausa {
 # server_selezionato = Dopo la scelta è salvato per effettuare l'azione
 #======================================================================================
 
-WEB_SERVERS="/home/sarellano /opt /etc"
+WEB_SERVERS="HOME|/home/sarellano OPT-LINUX|/opt ETC-LINUX|/etc"
 
 server_selezionato=0
 
@@ -55,7 +55,9 @@ function selezione_web_server(){
     for web_server in $WEB_SERVERS
     do
         numero_server=$((numero_server+1))
-        echo "$numero_server) $web_server"
+#        echo "$numero_server) $web_sierver"
+        nome_server=$( echo $web_server |  awk '{split($0,a,"|"); print a[1]}' )
+        echo "$numero_server) $nome_server"
     done
 
     echo -e "\n"
@@ -72,7 +74,8 @@ function selezione_web_server(){
     echo -e "Server selezionato : $info_server"
     echo -e "################################################################\n"
 
-    server_selezionato=$info_server
+    #server_selezionato=$info_server
+    server_selezionato=$( echo $info_server |  awk '{split($0,a,"|"); print a[2]}' )
 
 }
 
@@ -90,7 +93,7 @@ do
     echo "1. Memoria disponibile"
     echo "2. Espazio in Disco"
     echo "3. Applicazioni Deployate"
-    echo "4. Riavviare il WebServer"
+    echo "4. Applicazione Problemi Deploy"
     echo "5. Backup info"
     echo "6. Info"
     echo "7. Esci"
@@ -110,11 +113,15 @@ do
             ;;
         3)
             selezione_web_server
-            find $server_selezionato -type f -name *deployed
+            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name *deployed | wc -l )]"
+            find $server_selezionato -type f -name *deployed -exec ls -l {} \;
             pausa
             ;;
         4)
             selezione_web_server
+            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name *failed | wc -l )]"
+            find $server_selezionato -type f -name *failed -exec ls -l {} \;
+            pausa
             ;;
         6)
             aiuto
