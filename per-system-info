@@ -96,13 +96,15 @@ do
     echo "4. Applicazione Failed"
     echo "5. JNDI Datasources"
     echo "6. Log configurati"
-    echo "7. Info"
-    echo "8. Esci"
+    echo "7. Errori server.log ultime 2 ore"
+    echo "8. Restart Servizio"
+    echo "9. Info"
+    echo "10. Esci"
 
     echo -e "\n"
 
     # Catturare dati dal utente
-    read -n1 -p "Scegliere una opzione [1-8] : " opzione
+    read -n2 -p "Scegliere una opzione [1-10] : " opzione
     echo -e "\n"
     # verificare opzione
     case $opzione in
@@ -148,12 +150,26 @@ do
             fi
             pausa
             ;;
-        7)
+        7)  
+            selezione_web_server
+            path_file=$server_selezionato/server.log
+            if [ -f "$path_file" ]; then
+                grep "^$( date --date="-2 hours" +"%H" ).*ERROR.*$" $path_file
+            else
+                echo "Il file $path_file non esiste, controllare se è un web application server!"
+            fi
+            pausa
+            ;;
+            
+        8)  
+            echo "to do"
+            pausa
+            ;;
+        9)
             aiuto
             pausa
             ;;
-        8)
-            echo -e "\n"
+        10) echo -e "\n"
             exit 0
     esac
 done
