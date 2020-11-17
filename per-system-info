@@ -18,11 +18,12 @@
 #======================================================================================
 function aiuto {
     cat <<AIUTO_PER
-    commando
+    autore : Sergio Arellano Diaz
+             sergioarellanodiaz@gmail.com
 
-    opzioni
-    -? blabla
-    -? blabla
+
+    commando ./
+
 AIUTO_PER
 }
 
@@ -86,20 +87,22 @@ do
     # Pulisci schermo
     clear
     # Creazione Menu
-    echo "Menu utilitario sistema"
     echo "----------------------------------------"
-    echo "PEUTINDE - Utilitario                   "
+    echo "PEUTINDE - Helper (JBoos/EAP)           "
     echo "----------------------------------------"
     echo "1. Memoria disponibile"
     echo "2. Espazio in Disco"
     echo "3. Applicazioni Deployate"
-    echo "4. Applicazione Problemi Deploy"
-    echo "5. Backup info"
-    echo "6. Info"
-    echo "7. Esci"
+    echo "4. Applicazione Failed"
+    echo "5. JNDI Datasources"
+    echo "6. Log configurati"
+    echo "7. Info"
+    echo "8. Esci"
+
+    echo -e "\n"
 
     # Catturare dati dal utente
-    read -n1 -p "Scegliere una opzione [1-7] : " opzione
+    read -n1 -p "Scegliere una opzione [1-8] : " opzione
     echo -e "\n"
     # verificare opzione
     case $opzione in
@@ -123,11 +126,33 @@ do
             find $server_selezionato -type f -name *failed -exec ls -l {} \;
             pausa
             ;;
+        5)
+            selezione_web_server
+            path_file=$server_selezionato/standalone.xml
+            if [ -f "$path_file" ]; then 
+                echo ">> Jndi trovati : [$( egrep -Eo 'jndi-name.\"java.([[:alnum:]]|/)+{,2}\"' $path_file | wc -l )]"
+                egrep -Eo 'jndi-name."java.([[:alnum:]]|/)+{,2}"' $path_file
+            else
+                echo "Il file $path_file non esiste, controllare se è un web application server!"
+            fi
+            pausa
+            ;;
         6)
-            aiuto
+            selezione_web_server
+            path_file=$server_selezionato/standalone.xml
+            if [ -f "$path_file" ]; then
+                echo ">> Log trovati : [$( egrep -Eo 'relative.*' $path_file | egrep -o 'path.*(\"){1,2}' | wc -l )]"
+                egrep -Eo 'relative.*' $path_file | egrep -o 'path.*("){1,2}'
+            else
+                echo "Il file $path_file non esiste, controllare se è un web application server!"
+            fi
             pausa
             ;;
         7)
+            aiuto
+            pausa
+            ;;
+        8)
             echo -e "\n"
             exit 0
     esac
