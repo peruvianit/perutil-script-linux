@@ -12,8 +12,10 @@
 # Revisioni   :
 #======================================================================================
 
-WEB_SERVERS="\\home \\opt \\etc"
 
+#======================================================================================
+# INFORMAZIONE DEL SCRIPT
+#======================================================================================
 function aiuto {
     cat <<AIUTO_PER
     commando
@@ -24,9 +26,23 @@ function aiuto {
 AIUTO_PER
 }
 
+
+#======================================================================================
+# Pausa dopo un comando
+#======================================================================================
 function pausa {
+    echo -e "\n"
     read -p "Presiona Invio per continuare..."
 }
+
+
+#======================================================================================
+# Seleziona del server da controllare, su questa versione solo gestiona JBOSS/EAP
+# WEB_SERVERS = Path dei webserver da controllare
+# server_selezionato = Dopo la scelta è salvato per effettuare l'azione
+#======================================================================================
+
+WEB_SERVERS="/home/sarellano /opt /etc"
 
 server_selezionato=0
 
@@ -42,6 +58,7 @@ function selezione_web_server(){
         echo "$numero_server) $web_server"
     done
 
+    echo -e "\n"
     # Catturare dati dal utente
     read -n1 -p "Scegliere una opzione [1-$numero_server] : " opzione_server
     echo -e "\n"
@@ -50,6 +67,10 @@ function selezione_web_server(){
 
     arr=($WEB_SERVERS)
     info_server=${arr[opzione_server-1]}
+
+    echo -e "################################################################"
+    echo -e "Server selezionato : $info_server"
+    echo -e "################################################################\n"
 
     server_selezionato=$info_server
 
@@ -68,8 +89,8 @@ do
     echo "----------------------------------------"
     echo "1. Memoria disponibile"
     echo "2. Espazio in Disco"
-    echo "3. Riavvio Web Application Server"
-    echo "4. Applicazioni deployate"
+    echo "3. Applicazioni Deployate"
+    echo "4. Riavviare il WebServer"
     echo "5. Backup info"
     echo "6. Info"
     echo "7. Esci"
@@ -88,13 +109,12 @@ do
             pausa
             ;;
         3)
-            prova_function
+            selezione_web_server
+            find $server_selezionato -type f -name *deployed
             pausa
-            ;;            
+            ;;
         4)
             selezione_web_server
-            echo $server_selezionato
-            pausa
             ;;
         6)
             aiuto
