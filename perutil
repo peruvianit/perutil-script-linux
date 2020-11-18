@@ -18,11 +18,11 @@
 #======================================================================================
 function aiuto {
     cat <<AIUTO_PER
-    autore : Sergio Arellano Diaz
-             sergioarellanodiaz@gmail.com
+    Autore  : Sergio Arellano Diaz
+              sergioarellanodiaz@gmail.com
+    Version : 1.0.0
 
-
-    commando ./
+    commando ./perutil
 
 AIUTO_PER
 }
@@ -33,7 +33,7 @@ AIUTO_PER
 #======================================================================================
 function pausa {
     echo -e "\n"
-    read -p "Presiona Invio per continuare..."
+    read -sp "Presiona Invio per continuare..."
 }
 
 
@@ -88,7 +88,7 @@ do
     clear
     # Creazione Menu
     echo "----------------------------------------"
-    echo "PEUTINDE - Helper (JBoos/EAP)           "
+    echo "PERUTIL - Helper (JBoos/EAP)           "
     echo "----------------------------------------"
     echo "1. Memoria disponibile"
     echo "2. Espazio in Disco"
@@ -169,7 +169,13 @@ do
             aiuto
             pausa
             ;;
-        10) echo -e "\n"
+        10) 
+            echo -e "\n"
             exit 0
+            ;;
+        *)  
+            echo -e "La opzione selezzionata non è valita!"    
+            pausa
+            ;;
     esac
 done
