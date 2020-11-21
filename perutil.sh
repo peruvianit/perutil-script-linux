@@ -36,7 +36,15 @@ function aiuto {
     Repository : https://github.com/peruvianit/perutil-script-linux.sh
     Version    : 1.0.0
 
-    commando ./perutil
+    Commando   : ./perutil
+
+    Nota       : Questa versione funziona per la struttura del Web Application Server
+                 + <FOLDER_WEB_APPLICATION_SERVER>
+                 |
+                 ----+<STANDALONE>
+                     |
+                     +----<LOG>
+                     +----<DEPLOYMENT>
 
 AIUTO_PER
 }
