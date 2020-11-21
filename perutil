@@ -18,9 +18,9 @@
 #======================================================================================
 function aiuto {
     cat <<AIUTO_PER
-    Autore  : Sergio Arellano Diaz
-              sergioarellanodiaz@gmail.com
-    Version : 1.0.0
+    Autore     : Sergio Arellano Diaz ( sergioarellanodiaz@gmail.com )
+    Repository : https://github.com/peruvianit/perutil-script-linux
+    Version    : 1.0.0
 
     commando ./perutil
 
@@ -124,8 +124,8 @@ do
             ;;
         4)
             selezione_web_server
-            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name *failed | wc -l )]"
-            find $server_selezionato -type f -name *failed -exec ls -l {} \;
+            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name \"*failed\" | wc -l )]"
+            find $server_selezionato -type f -name "*failed" -exec ls -l {} \;
             pausa
             ;;
         5)
@@ -155,6 +155,7 @@ do
             path_file=$server_selezionato/server.log
             if [ -f "$path_file" ]; then
                 grep "^$( date --date="-2 hours" +"%H" ).*ERROR.*$" $path_file
+                echo -e  "\n>>  Errori trovati : [$( grep ^$( date --date='-2 hours' +'%H' ).*ERROR.*$ $path_file | wc -l )]"
             else
                 echo "Il file $path_file non esiste, controllare se è un web application server!"
             fi
