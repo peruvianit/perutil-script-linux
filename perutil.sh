@@ -33,7 +33,7 @@ NC='\033[0m' # No Color
 function aiuto {
     cat <<AIUTO_PER
     Autore     : Sergio Arellano Diaz ( sergioarellanodiaz@gmail.com )
-    Repository : https://github.com/peruvianit/perutil-script-linux
+    Repository : https://github.com/peruvianit/perutil-script-linux.sh
     Version    : 1.0.0
 
     commando ./perutil
