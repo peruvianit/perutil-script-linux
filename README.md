@@ -13,10 +13,10 @@ Linux
 $ wget https://github.com/peruvianit/perutil-script-linux/blob/main/perutil
 $ chmod a+x perutil
 ```
-Aprire il file e configurare la variabile **WEB_SERVERS=** e aggiornare la lista di web application server, con  la coppia <NOME_WEB_APP_SERVER>**|**<PATH_WEB_APP_SERVER> e per aggiungere altri dare un **spazio**
+Aprire il file e configurare la variabile **WEB_SERVERS=** e aggiornare la lista di web application server, con  la <NOME_WEB_APP_SERVER>|<PATH_WEB_APP_SERVER>|<NOME_SERVIZIO> e per aggiungere altri dare un **spazio**
 Esempio
 ```bash
-WEB_SERVERS=EAP-6.4|/opt/Jboos-eap-6.4 EAP-7.1|/opt/Jboos-eap-7.1
+WEB_SERVERS=EAP-6.4|/opt/Jboos-eap-6.4|JBOSS6 EAP-7.1|/opt/Jboos-eap-7.1|JBOSS7
 ```
 
 Utilizzo
