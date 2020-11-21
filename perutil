@@ -12,6 +12,13 @@
 # Revisioni   :
 #======================================================================================
 
+#======================================================================================
+# COLORS SETTING
+#======================================================================================
+
+BROWN_ORANGE='\033[0;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
 #======================================================================================
 # INFORMAZIONE DEL SCRIPT
@@ -87,11 +94,14 @@ do
     # Pulisci schermo
     clear
     # Creazione Menu
-    echo "----------------------------------------"
-    echo "PERUTIL - Helper (JBoos/EAP)           "
-    echo "----------------------------------------"
+    echo "-----------------------------------------"
+    echo "PERUTIL - Helper (JBoos/EAP)             "
+    # >>>info stato server
+    printf "\n${BROWN_ORANGE}Memoria disponibile [$( grep MemFree /proc/meminfo | awk '{print $2 / 1024}' )] (Megabytes)${NC}\n"
+    # <<< info stato server
+    echo "-----------------------------------------"
     echo "1. Memoria disponibile"
-    echo "2. Espazio in Disco"
+    echo "2. Spazio in Disco"
     echo "3. Applicazioni Deployate"
     echo "4. Applicazione Failed"
     echo "5. JNDI Datasources"
@@ -124,7 +134,7 @@ do
             ;;
         4)
             selezione_web_server
-            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name \"*failed\" | wc -l )]"
+            echo ">> Applicazioni trovate : [$( find $server_selezionato -type f -name '*failed' | wc -l )]"
             find $server_selezionato -type f -name "*failed" -exec ls -l {} \;
             pausa
             ;;
