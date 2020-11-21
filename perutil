@@ -3,7 +3,7 @@
 #
 # File        : utiliti.sh
 # Utilizzo    : ./utiliti.sh
-
+#
 # Descrizione : Utiliti per la verfica inf del sistema e deployment applicazione
 #
 # Autore      : Sergio Arellano Diaz
@@ -11,6 +11,13 @@
 # Creato      : 14/11/2020 12:00
 # Revisioni   :
 #======================================================================================
+
+#======================================================================================
+# WEB_SERVERS = <NOME_WEB_APP_SERVER>|<PATH_WEB_APP_SERVER>|<NOME_SERVIZIO> 
+#               Per aggiungere altri aggiungere un spazio e aggiungere il nuovo server.
+#======================================================================================
+
+WEB_SERVERS="HOME|/home/sarellano|SERVIZIO OPT-LINUX|/opt|SERVIZIO ETC-LINUX|/etc|SERVIZIO"
 
 #======================================================================================
 # COLORS SETTING
@@ -45,14 +52,11 @@ function pausa {
 
 
 #======================================================================================
-# Seleziona del server da controllare, su questa versione solo gestiona JBOSS/EAP
-# WEB_SERVERS = Path dei webserver da controllare
 # server_selezionato = Dopo la scelta è salvato per effettuare l'azione
 #======================================================================================
 
-WEB_SERVERS="HOME|/home/sarellano OPT-LINUX|/opt ETC-LINUX|/etc"
-
 server_selezionato=0
+servizio_server_selezionato=0
 
 function selezione_web_server(){
     opzione_server=0
@@ -78,12 +82,17 @@ function selezione_web_server(){
     arr=($WEB_SERVERS)
     info_server=${arr[opzione_server-1]}
 
-    echo -e "################################################################"
-    echo -e "Server selezionato : $info_server"
-    echo -e "################################################################\n"
+    #echo -e "################################################################"
+    #echo -e "Server selezionato : $( echo $info_server | awk '{split($0,a,\"|\"); print a[1]} )"
+    #echo -e "################################################################\n"
 
-    #server_selezionato=$info_server
+    nome_server_selezionato=$( echo $info_server |  awk '{split($0,a,"|"); print a[1]}' )
     server_selezionato=$( echo $info_server |  awk '{split($0,a,"|"); print a[2]}' )
+    servizio_server_selezionato=$( echo $info_server |  awk '{split($0,a,"|"); print a[3]}' )
+
+    echo -e "################################################################"
+    echo -e "Server selezionato : $nome_server_selezionato                     "
+    echo -e "################################################################\n"
 
 }
 
@@ -173,7 +182,9 @@ do
             ;;
             
         8)  
-            echo "to do"
+            selezione_web_server
+            sudo service $servizio_server_selezionato stop
+            sudo service $servizio_server_selezionato start
             pausa
             ;;
         9)
